@@ -3,22 +3,22 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
-const SHAPES = ["★", "✦", "●", "♦", "◆"];
-const COLORS = ["#FF8C00", "#FFB300", "#FF6B00", "#FFD700", "#FF4500"];
+const SHAPES = ["✿", "❋", "✻", "❀", "✾", "⬟"];
+const COLORS = ["#22C55E", "#16A34A", "#4ADE80", "#86EFAC", "#15803D"];
 
-function spawnSparkle(container: HTMLElement) {
+function spawnLeaf(container: HTMLElement) {
   const el = document.createElement("div");
-  el.className = "sparkle";
-  const size  = Math.random() * 16 + 8;
+  el.className = "leaf-sparkle";
+  const size  = Math.random() * 14 + 8;
   const color = COLORS[Math.floor(Math.random() * COLORS.length)];
   const shape = SHAPES[Math.floor(Math.random() * SHAPES.length)];
-  const dur   = Math.random() * 1.2 + 0.8;
-  const delay = Math.random() * 0.3;
+  const dur   = Math.random() * 1.4 + 0.9;
+  const delay = Math.random() * 0.4;
   el.style.fontSize   = `${size}px`;
   el.style.color      = color;
   el.style.left       = `${Math.random() * 95}%`;
   el.style.top        = `${Math.random() * 90}%`;
-  el.style.textShadow = `0 0 8px ${color}`;
+  el.style.textShadow = `0 0 10px ${color}`;
   el.style.setProperty("--dur",   `${dur}s`);
   el.style.setProperty("--delay", `${delay}s`);
   el.innerText = shape;
@@ -35,7 +35,7 @@ const ROUTE_POSITIONS = [
 ];
 
 function Arrow({ x, y, dir }: { x: number; y: number; dir: "right" | "left" | "down" }) {
-  const c = "#FF8C00";
+  const c = "#16A34A";
   const w = 2.2;
   if (dir === "right") return <polyline points={`${x-7},${y-4} ${x},${y} ${x-7},${y+4}`} fill="none" stroke={c} strokeWidth={w} strokeLinecap="round" strokeLinejoin="round"/>;
   if (dir === "left")  return <polyline points={`${x+7},${y-4} ${x},${y} ${x+7},${y+4}`} fill="none" stroke={c} strokeWidth={w} strokeLinecap="round" strokeLinejoin="round"/>;
@@ -43,16 +43,16 @@ function Arrow({ x, y, dir }: { x: number; y: number; dir: "right" | "left" | "d
   return null;
 }
 
-export default function Home() {
+export default function Design02() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [joined, setJoined] = useState(false);
+  const [joined, setJoined]     = useState(false);
   const [myNumber, setMyNumber] = useState(0);
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
-    for (let i = 0; i < 18; i++) setTimeout(() => spawnSparkle(container), i * 150);
-    const id = setInterval(() => spawnSparkle(container), 350);
+    for (let i = 0; i < 18; i++) setTimeout(() => spawnLeaf(container), i * 150);
+    const id = setInterval(() => spawnLeaf(container), 380);
     return () => clearInterval(id);
   }, []);
 
@@ -66,81 +66,88 @@ export default function Home() {
   return (
     <main
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
-      style={{ background: "linear-gradient(135deg, #C45A00 0%, #D97000 40%, #E08020 70%, #C45A00 100%)" }}
+      style={{ background: "linear-gradient(135deg, #052E16 0%, #14532D 40%, #166534 70%, #052E16 100%)" }}
     >
       {/* デザイン切り替えリンク */}
       <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20 flex gap-2">
-        <span className="px-4 py-1.5 rounded-full text-xs font-black"
-              style={{ background: "rgba(0,0,0,0.25)", color: "#fff" }}>
-          Design 01
-        </span>
-        <Link href="/design02"
+        <Link href="/design01"
               className="px-4 py-1.5 rounded-full text-xs font-black transition-opacity hover:opacity-80"
               style={{ background: "rgba(0,0,0,0.15)", color: "rgba(255,255,255,0.7)" }}>
-          Design 02
+          Design 01
         </Link>
+        <span className="px-4 py-1.5 rounded-full text-xs font-black"
+              style={{ background: "rgba(0,0,0,0.25)", color: "#fff" }}>
+          Design 02
+        </span>
       </div>
 
       {/* 背景ドット */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.07]"
-           style={{ backgroundImage: "radial-gradient(circle, #fff 1.5px, transparent 1.5px)", backgroundSize: "32px 32px" }} />
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.06]"
+        style={{ backgroundImage: "radial-gradient(circle, #86efac 1.5px, transparent 1.5px)", backgroundSize: "32px 32px" }}
+      />
 
-      {/* 背景の大きな装飾丸 */}
+      {/* 装飾丸 */}
       <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full pointer-events-none"
-           style={{ background: "rgba(0,0,0,0.08)" }} />
+           style={{ background: "rgba(134,239,172,0.07)" }} />
       <div className="absolute -bottom-24 -left-24 w-80 h-80 rounded-full pointer-events-none"
-           style={{ background: "rgba(0,0,0,0.06)" }} />
+           style={{ background: "rgba(134,239,172,0.05)" }} />
 
       {/* きらめき */}
       <div ref={containerRef} className="fixed inset-0 pointer-events-none" />
 
       <div className="float-card relative z-10 mx-4">
         {/* 回転リング */}
-        <div className="ring-spin absolute -inset-3 rounded-3xl border-4 border-dashed border-white/30 pointer-events-none" />
+        <div className="ring-spin absolute -inset-3 rounded-3xl border-4 border-dashed border-green-400/30 pointer-events-none" />
 
         <div className="relative rounded-3xl overflow-hidden" style={{ width: "340px" }}>
-          {/* カード上部のカラーバー */}
-          <div className="h-3 w-full" style={{ background: "linear-gradient(90deg, #B84800, #D97000, #C45A00, #D97000, #B84800)" }} />
+          {/* カード上部バー */}
+          <div className="h-3 w-full"
+               style={{ background: "linear-gradient(90deg, #14532D, #22C55E, #16A34A, #22C55E, #14532D)" }} />
 
-          <div className="px-6 pt-5 pb-6" style={{ background: "#FFFAF4" }}>
+          <div className="px-6 pt-5 pb-6" style={{ background: "#F0FDF4" }}>
 
             {/* タイトル */}
             <div className="text-center mb-4">
-              <span className="inline-block text-xs font-black tracking-widest uppercase px-3 py-1 rounded-full mb-2"
-                    style={{ background: "rgba(180,80,0,0.12)", color: "#B04500" }}>
+              <span
+                className="inline-block text-xs font-black tracking-widest uppercase px-3 py-1 rounded-full mb-2"
+                style={{ background: "rgba(22,163,74,0.12)", color: "#15803D" }}
+              >
                 QUEUE GUIDANCE
               </span>
-              <p className="text-xl font-black" style={{ color: "#8B3A00" }}>
+              <p className="text-xl font-black" style={{ color: "#14532D" }}>
                 列に並んでお待ちください
               </p>
             </div>
 
             {/* 案内図 */}
-            <div className="rounded-2xl overflow-hidden mb-4"
-                 style={{ background: "#FFF8F0", border: "2px solid rgba(255,140,0,0.25)" }}>
+            <div
+              className="rounded-2xl overflow-hidden mb-4"
+              style={{ background: "#F0FDF4", border: "2px solid rgba(34,197,94,0.3)" }}
+            >
               <svg viewBox="0 0 228 178" width="100%" style={{ display: "block" }}>
 
                 {/* 外枠 */}
                 <rect x="6" y="6" width="216" height="130" rx="8"
-                      fill="rgba(255,140,0,0.06)" stroke="#FF8C00" strokeWidth="1.5" strokeOpacity="0.3"/>
+                      fill="rgba(34,197,94,0.06)" stroke="#22C55E" strokeWidth="1.5" strokeOpacity="0.35"/>
 
                 {/* 「外」ラベル */}
-                <text x="13" y="17" fontSize="6" fill="#FF8C00" fontFamily="Arial"
-                      fontWeight="bold" fillOpacity="0.5">外（待機エリア）</text>
+                <text x="13" y="17" fontSize="6" fill="#16A34A" fontFamily="Arial"
+                      fontWeight="bold" fillOpacity="0.55">外（待機エリア）</text>
 
                 {/* レーン仕切り */}
                 <line x1="13" y1="50" x2="196" y2="50"
-                      stroke="#FF8C00" strokeWidth="1.2" strokeLinecap="round"
-                      strokeDasharray="5 3" strokeOpacity="0.35"/>
+                      stroke="#22C55E" strokeWidth="1.2" strokeLinecap="round"
+                      strokeDasharray="5 3" strokeOpacity="0.4"/>
                 <line x1="32" y1="94" x2="221" y2="94"
-                      stroke="#FF8C00" strokeWidth="1.2" strokeLinecap="round"
-                      strokeDasharray="5 3" strokeOpacity="0.35"/>
+                      stroke="#22C55E" strokeWidth="1.2" strokeLinecap="round"
+                      strokeDasharray="5 3" strokeOpacity="0.4"/>
 
                 {/* 折り返し角 */}
-                <path d="M196,50 Q214,50 214,28" fill="none" stroke="#FF8C00"
-                      strokeWidth="1" strokeDasharray="3 3" strokeOpacity="0.25"/>
-                <path d="M32,94 Q14,94 14,116" fill="none" stroke="#FF8C00"
-                      strokeWidth="1" strokeDasharray="3 3" strokeOpacity="0.25"/>
+                <path d="M196,50 Q214,50 214,28" fill="none" stroke="#22C55E"
+                      strokeWidth="1" strokeDasharray="3 3" strokeOpacity="0.3"/>
+                <path d="M32,94 Q14,94 14,116" fill="none" stroke="#22C55E"
+                      strokeWidth="1" strokeDasharray="3 3" strokeOpacity="0.3"/>
 
                 {/* 方向矢印 */}
                 <Arrow x={182} y={28}  dir="right" />
@@ -151,27 +158,27 @@ export default function Home() {
 
                 {/* 店舗エリア */}
                 <line x1="6" y1="136" x2="222" y2="136"
-                      stroke="#FF8C00" strokeWidth="1.8" strokeOpacity="0.5"/>
+                      stroke="#22C55E" strokeWidth="1.8" strokeOpacity="0.5"/>
                 <rect x="6" y="136" width="216" height="36"
-                      fill="rgba(255,140,0,0.1)"/>
-                <text x="18" y="159" fontSize="7.5" fill="#FF6B00" fontFamily="Arial"
-                      fontWeight="black" letterSpacing="2" fillOpacity="0.6">SHOP</text>
+                      fill="rgba(34,197,94,0.10)"/>
+                <text x="18" y="159" fontSize="7.5" fill="#16A34A" fontFamily="Arial"
+                      fontWeight="black" letterSpacing="2" fillOpacity="0.65">SHOP</text>
 
                 {/* 入口ラベル */}
                 <rect x="150" y="144" width="68" height="22" rx="6"
-                      fill="#FF8C00" fillOpacity="0.9"/>
+                      fill="#16A34A" fillOpacity="0.9"/>
                 <text x="184" y="159" textAnchor="middle" fontSize="9.5"
                       fill="white" fontFamily="Arial" fontWeight="bold" letterSpacing="1">入口</text>
 
                 {/* 人アイコン */}
                 {ROUTE_POSITIONS.slice(0, totalInQueue).map((pos, i) => {
                   const isYou = joined && i === totalInQueue - 1;
-                  const color = isYou ? "#FF4500" : "#FF8C00";
+                  const color = isYou ? "#15803D" : "#22C55E";
                   return (
                     <g key={i} transform={`translate(${pos.x},${pos.y})`}>
                       {isYou && (
                         <text y="-17" textAnchor="middle" fontSize="6.5"
-                              fill="#FF4500" fontFamily="Arial" fontWeight="black">YOU</text>
+                              fill="#15803D" fontFamily="Arial" fontWeight="black">YOU</text>
                       )}
                       <circle cx="0" cy="-7" r="4.5" fill={color} fillOpacity={isYou ? 1 : 0.85}/>
                       <path d="M-5.5,1 Q0,11 5.5,1" fill={color} fillOpacity={isYou ? 1 : 0.85}/>
@@ -184,26 +191,32 @@ export default function Home() {
 
             {/* 待ち人数 & 待ち時間 */}
             <div className="flex gap-3 mb-4">
-              <div className="flex-1 rounded-2xl px-4 py-3 text-center"
-                   style={{ background: "linear-gradient(135deg, #FDE8C8, #F5D0A0)", border: "2px solid rgba(180,90,0,0.2)" }}>
-                <p className="text-xs font-bold mb-1" style={{ color: "#8B4500" }}>待ち人数</p>
-                <p className="text-2xl font-black" style={{ color: "#7A3000" }}>
-                  {totalInQueue}<span className="text-sm ml-0.5 font-bold" style={{ color: "#A05000" }}>人</span>
+              <div
+                className="flex-1 rounded-2xl px-4 py-3 text-center"
+                style={{ background: "linear-gradient(135deg, #DCFCE7, #BBF7D0)", border: "2px solid rgba(22,163,74,0.25)" }}
+              >
+                <p className="text-xs font-bold mb-1" style={{ color: "#15803D" }}>待ち人数</p>
+                <p className="text-2xl font-black" style={{ color: "#14532D" }}>
+                  {totalInQueue}<span className="text-sm ml-0.5 font-bold" style={{ color: "#166534" }}>人</span>
                 </p>
               </div>
-              <div className="flex-1 rounded-2xl px-4 py-3 text-center"
-                   style={{ background: "linear-gradient(135deg, #FDE8C8, #F5D0A0)", border: "2px solid rgba(180,90,0,0.2)" }}>
-                <p className="text-xs font-bold mb-1" style={{ color: "#8B4500" }}>待ち時間</p>
-                <p className="text-2xl font-black" style={{ color: "#7A3000" }}>
-                  10<span className="text-sm ml-0.5 font-bold" style={{ color: "#A05000" }}>分</span>
+              <div
+                className="flex-1 rounded-2xl px-4 py-3 text-center"
+                style={{ background: "linear-gradient(135deg, #DCFCE7, #BBF7D0)", border: "2px solid rgba(22,163,74,0.25)" }}
+              >
+                <p className="text-xs font-bold mb-1" style={{ color: "#15803D" }}>待ち時間</p>
+                <p className="text-2xl font-black" style={{ color: "#14532D" }}>
+                  10<span className="text-sm ml-0.5 font-bold" style={{ color: "#166534" }}>分</span>
                 </p>
               </div>
             </div>
 
             {/* あなたの番号 */}
             {joined && (
-              <div className="rounded-2xl px-5 py-3 mb-4 flex items-center justify-between"
-                   style={{ background: "linear-gradient(135deg, #C45A00, #E07800)", boxShadow: "0 4px 14px rgba(180,80,0,0.4)" }}>
+              <div
+                className="rounded-2xl px-5 py-3 mb-4 flex items-center justify-between"
+                style={{ background: "linear-gradient(135deg, #15803D, #22C55E)", boxShadow: "0 4px 14px rgba(22,163,74,0.4)" }}
+              >
                 <p className="text-sm font-black text-white">あなたの番号</p>
                 <p className="text-3xl font-black text-white">
                   {myNumber}<span className="text-base ml-1 font-bold opacity-80">番</span>
@@ -217,25 +230,26 @@ export default function Home() {
                 onClick={handleJoin}
                 className="w-full py-4 rounded-2xl text-base font-black tracking-wider transition-all duration-300 hover:scale-105 active:scale-95"
                 style={{
-                  background: "linear-gradient(135deg, #B84800, #D06000)",
+                  background: "linear-gradient(135deg, #14532D, #16A34A)",
                   color: "#fff",
-                  boxShadow: "0 6px 20px rgba(160,70,0,0.45), inset 0 1px 0 rgba(255,255,255,0.2)",
+                  boxShadow: "0 6px 20px rgba(22,163,74,0.45), inset 0 1px 0 rgba(255,255,255,0.15)",
                 }}
               >
                 ここに並ぶ
               </button>
             ) : (
               <div className="flex justify-center gap-2 py-2">
-                <span className="dot1 inline-block w-3 h-3 rounded-full" style={{ background: "#FF6B00" }} />
-                <span className="dot2 inline-block w-3 h-3 rounded-full" style={{ background: "#FF8C00" }} />
-                <span className="dot3 inline-block w-3 h-3 rounded-full" style={{ background: "#FFD700" }} />
+                <span className="dot1 inline-block w-3 h-3 rounded-full" style={{ background: "#22C55E" }} />
+                <span className="dot2 inline-block w-3 h-3 rounded-full" style={{ background: "#4ADE80" }} />
+                <span className="dot3 inline-block w-3 h-3 rounded-full" style={{ background: "#86EFAC" }} />
               </div>
             )}
 
           </div>
 
-          {/* カード下部のカラーバー */}
-          <div className="h-2 w-full" style={{ background: "linear-gradient(90deg, #D97000, #C45A00, #B84800, #C45A00, #D97000)" }} />
+          {/* カード下部バー */}
+          <div className="h-2 w-full"
+               style={{ background: "linear-gradient(90deg, #22C55E, #14532D, #16A34A, #14532D, #22C55E)" }} />
         </div>
       </div>
     </main>

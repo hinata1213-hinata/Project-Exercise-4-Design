@@ -37,3 +37,9 @@ body {
   pointer-events: none;
   animation: pop-sparkle var(--dur) ease-out var(--delay) forwards;
 }
+
+.leaf-sparkle {
+  position: fixed;
+  pointer-events: none;
+  animation: pop-sparkle var(--dur) ease-out var(--delay) forwards;
+}
